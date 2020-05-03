@@ -74,15 +74,26 @@ function init(){
     score = 0
     game_over = false
 
-    // Adding event listners for player
-    canvas.addEventListener('mousedown',function(){
-		console.log("You pressed the mouse");
+    // // Adding event listners for player
+    // canvas.addEventListener('mousedown',function(){
+	// 	console.log("You pressed the mouse");
+	// 	player.moving = true;
+	// });
+	// canvas.addEventListener('mouseup',function(){
+	// 	console.log("You released the mouse");
+	// 	player.moving = false;
+    // });
+    
+    // For mobile
+    canvas.addEventListener('touchstart',function(){
+		console.log("You pressed the touch");
 		player.moving = true;
 	});
-	canvas.addEventListener('mouseup',function(){
+	canvas.addEventListener('touchend',function(){
 		console.log("You released the mouse");
 		player.moving = false;
-	});
+    });
+    
     
     // Event listners for other buttons
     /*
