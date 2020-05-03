@@ -1,0 +1,10 @@
+body{
+    background-color: lightsteelblue;
+}
+
+#canvas1{
+    background-image: url("./Assets/back.jpeg");
+    border: 5px solid red;
+    width: 700px;
+    height: 400px;
+}
