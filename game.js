@@ -1,6 +1,13 @@
 function load_images(){
     virus_image = new Image;
     virus_image.src = "Assets/v1.png"
+
+
+    player_image = new Image;
+    player_image.src = "Assets/superhero.png"
+
+    gem_image = new Image
+    gem_image.src = "Assets/gemm.png"
 }
 
 
@@ -21,38 +28,144 @@ function init(){
     console.log(pen)
 
     // JSON objects
-    bird = {
-        x: 250,
-        y: 50,
-        w: 60,
-        h: 60,
-        speed: 20
+    v1 = {
+		x : 150,
+		y : 50,
+		w : 60,
+		h : 60,
+		speed : 20,
+	};
+	v2 = {
+		x : 300,
+		y : 150,
+		w : 60,
+		h : 60,
+		speed : 30,
+	};
+	v3 = {
+		x : 450,
+		y : 20,
+		w : 60,
+		h : 60,
+		speed : 40,
+	};
+    // List of virus
+    virus=[v1,v2,v3]
+
+
+    // Creating player
+    player = {
+		x : 20,
+		y : height/2,
+		w : 60,
+		h : 60,
+		speed : 20,
+		moving : "false",
     }
+    
+    // Gem
+	gem = {
+		x : width-100,
+		y : height/2,
+		w : 60,
+		h : 60,
+	}
+    
+    score = 0
+    game_over = false
+
+    // Adding event listners for player
+    canvas.addEventListener('mousedown',function(){
+		console.log("You pressed the mouse");
+		player.moving = true;
+	});
+	canvas.addEventListener('mouseup',function(){
+		console.log("You released the mouse");
+		player.moving = false;
+	});
+    
+    // Event listners for other buttons
+    /*
+    canvas.addEventListener('keydown',function(e){
+        console.log("Key pressed");
+        console.log(e);
+    })
+    window.addEventListener('keydown',check,false);
+    function check(e) {
+        var code = e.keyCode;
+        switch (code) {
+            case 37: alert("Left"); break; //Left key
+            case 38: alert("Up"); break; //Up key
+            case 39: alert("Right"); break; //Right key
+            case 40: alert("Down"); break; //Down key
+            default: alert(code); //Everything else
+        }
+    }
+    */
 }
 
 // Game Loop
 function draw(){
     //Clear old screen
-    pen.clearRect(0, 0, height, width)
+    pen.clearRect(0, 0, width, height)
 
-    // Drawing a bird on screen
+    // Drawing player on screen
+    pen.drawImage(player_image, player.x , player.y , player.w , player.h);
+    
+    // Drawing gem on screen
+    pen.drawImage(gem_image, gem.x , gem.y , gem.w , gem.h);
+
+    // Drawing a virus on screen
     pen.fillStyle = "red";
-    // pen.fillRect(bird.x , bird.y , bird.w , bird.h);
-    pen.drawImage(virus_image, bird.x , bird.y , bird.w , bird.h);
-
+    // pen.fillRect(virus.x , virus.y , virus.w , virus.h);
+    for(let i=0; i<virus.length; i++){
+        pen.drawImage(virus_image, virus[i].x , virus[i].y , virus[i].w , virus[i].h);
+    }
+    pen.fillStyle = "white"
+    pen.fillText('Score: ' + score, 10, 20)
 }
 
 function update(){
-    bird.y += bird.speed;
     
-    if(bird.y>(height-bird.h) || bird.y<0)
-        bird.speed *=-1;
+    // Check player state
+    if(player.moving == true){
+        player.x += player.speed;
+        score += 10
+    }
 
-    console.log(bird.y)
+    for(let i=0; i<virus.length; i++){
+        if(isColliding(virus[i],player)){
+            game_over =  true
+            alert('Game Over\n Score='+score)
+        }
+    }
+    
+    //Check collision
+    if(isColliding(player,gem)){
+        game_over = true
+        alert('Won')
+    }
+
+    for(let i=0; i<virus.length; i++){
+        virus[i].y += virus[i].speed;
+
+        if(virus[i].y>(height-virus[i].h) || virus[i].y<0)
+            virus[i].speed *=-1;
+
+    }
+
+}
+
+function isColliding( obj1, obj2 ){
+    if(Math.abs(obj1.x-obj2.x)<=obj2.w && Math.abs(obj1.y-obj2.y)<=obj2.h)
+        return true;
+    return false;
 }
 
 function gameloop(){
-    console.log("In game loop")
+    if(game_over==true)
+        clearInterval(intrvl)
+
     draw();
     update();
 }
@@ -64,4 +177,4 @@ load_images()
 init();
 
 //Repeated call gameloop after sine interval
-setInterval(gameloop, 100)
+var intrvl = setInterval(gameloop, 100)
