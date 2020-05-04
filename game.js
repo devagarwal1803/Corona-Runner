@@ -33,21 +33,21 @@ function init(){
 		y : 50,
 		w : 60,
 		h : 60,
-		speed : 20,
+		speed : 5,
 	};
 	v2 = {
 		x : 300,
 		y : 150,
 		w : 60,
 		h : 60,
-		speed : 30,
+		speed : 10,
 	};
 	v3 = {
 		x : 450,
 		y : 20,
 		w : 60,
 		h : 60,
-		speed : 40,
+		speed : 15,
 	};
     // List of virus
     virus=[v1,v2,v3]
