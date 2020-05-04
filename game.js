@@ -145,14 +145,14 @@ function update(){
     for(let i=0; i<virus.length; i++){
         if(isColliding(virus[i],player)){
             game_over =  true
-            alert('Game Over\n Score='+score)
+            alert('Game Over!\nYou touched corona\n Score='+score)
         }
     }
     
     //Check collision
     if(isColliding(player,gem)){
         game_over = true
-        alert('Won')
+        alert('Congrats! You won the game')
     }
 
     for(let i=0; i<virus.length; i++){
